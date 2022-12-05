@@ -1,0 +1,12 @@
+{
+  "contact": [
+    {
+      "id": "1",
+      "name": "Yves",
+      "email": "Yves@gmail.com",
+      "phone": "61202014",
+      "address": "Bujumbura",
+      "pin": "123"
+    }
+  ]
+}

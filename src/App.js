@@ -7,7 +7,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { fontWeight, styled } from '@mui/system';
+import { styled } from '@mui/system';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './App.css';
@@ -62,7 +62,11 @@ function App() {
           </TableHead>
           <TableBody>
             {rows.length === 0 || rows.length === undefined ? (
-              <TableCell colSpan={8}>Aucune donne</TableCell>
+              <TableCell colSpan={8} align='center'>
+                <marquee width='60%' direction='right' height='100px'>
+                  <h1 style={{ color: 'rebeccapurple' }}>NO DATA FOUND</h1>
+                </marquee>
+              </TableCell>
             ) : (
               rows.map((row, index) => (
                 <TableRow

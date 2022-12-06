@@ -10,6 +10,7 @@ import {
 import { styled } from '@mui/system';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Marquee from 'react-fast-marquee';
 import './App.css';
 import { Contact } from './components/Contact';
 
@@ -29,7 +30,7 @@ function App() {
       .get(url)
       .then((res) => {
         setRows(res.data);
-        console.log('data', res.data);
+        // console.log('data', res.data);
       })
       .catch((err) => {
         console.log('error message', err.message);
@@ -40,7 +41,7 @@ function App() {
   }, []);
   return (
     <div className='App'>
-      <Contact url={url} />
+      <Contact />
       <br />
       <MyTable component={Paper}>
         <Table sx={{ minWidth: 450 }} aria-label='simple table'>
@@ -63,9 +64,9 @@ function App() {
           <TableBody>
             {rows.length === 0 || rows.length === undefined ? (
               <TableCell colSpan={8} align='center'>
-                <marquee width='60%' direction='right' height='100px'>
+                <Marquee speed={20} delay={10}>
                   <h1 style={{ color: 'rebeccapurple' }}>NO DATA FOUND</h1>
-                </marquee>
+                </Marquee>
               </TableCell>
             ) : (
               rows.map((row, index) => (

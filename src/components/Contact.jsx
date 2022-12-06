@@ -2,12 +2,18 @@ import {
   Button,
   FormControl,
   FormGroup,
-  Input,
+  Grid,
   InputLabel,
+  MenuItem,
+  Select,
+  TextField,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import React from 'react';
-
+import axios from 'axios';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import * as yup from 'yup';
+import { countryCode } from '../utils/CountryData';
 const MyForm = styled(FormGroup)({
   width: '50%',
   gap: 2,
@@ -19,41 +25,152 @@ const MyForm = styled(FormGroup)({
 });
 const MyFormControl = styled(FormControl)({
   marginTop: 10,
-  gap: 4,
+});
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+const validationSchema = yup.object({
+  name: yup.string().required('Required'),
+  email: yup.string().required('Required').email('Email is required'),
+  number: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+  pin: yup.string().min(4).required('Required'),
+  address: yup.string().required('Required'),
 });
 
 export const Contact = () => {
+  const url = 'http://localhost:8005/contact/';
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      number: '',
+      pin: '',
+      address: '',
+    },
+    onSubmit: (values) => {
+      console.log("fhdgssgsdfgsdg",values);
+      axios.post(url, values).then((res) => {
+        console.log('object', res.data);
+      }).catch(err => {
+        console.log("first",err.message)
+      })
+    },
+    validationSchema,
+  });
+  const [number, setNumber] = useState(``);
+  // eslint-disable-next-line
+  const handleChange = (event) => {
+    setNumber(event.target.value);
+  };
+
   return (
     <>
       <h1>Contact Form</h1>
-      <MyForm>
+
+      <MyForm component='form' onSubmit={formik.handleSubmit}>
         <MyFormControl>
-          <InputLabel>Full Name</InputLabel>
-          <Input />
+          <TextField
+            fullWidth
+            id='name'
+            name='name'
+            label='Full Name '
+            onChange={formik.handleChange}
+            value={formik.values.name}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+            onBlur={formik.handleBlur}
+          />
         </MyFormControl>
         <MyFormControl>
-          <InputLabel>Email</InputLabel>
-          <Input />
+          <TextField
+            fullWidth
+            id='email'
+            name='email'
+            label='Email'
+            variant='outlined'
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            onBlur={formik.handleBlur}
+          />
         </MyFormControl>
         <MyFormControl>
-          <InputLabel>Phone number</InputLabel>
-          <Input />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={2}>
+              <InputLabel id='demo-simple-select-error-label'>Code</InputLabel>
+              <Select
+                labelId='demo-simple-select-error-label'
+                id='demo-simple-select-error'
+                fullWidth
+                value={number}
+                label='number'
+                onChange={handleChange}
+                renderValue={(value) => `(${value})`}
+              >
+                {countryCode.map((country) => (
+                  <MenuItem key={country.code} value={country.dial_code}>
+                    {country.code}
+                    {country.dial_code}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id='number'
+                name='number'
+                label='Phone number'
+                variant='outlined'
+                onChange={formik.handleChange}
+                value={formik.values.number}
+                error={formik.touched.number && Boolean(formik.errors.number)}
+                helperText={formik.touched.number && formik.errors.number}
+                onBlur={formik.handleBlur}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                id='pin'
+                name='pin'
+                label='PIN'
+                variant='outlined'
+                onChange={formik.handleChange}
+                value={formik.values.pin}
+                error={formik.touched.pin && Boolean(formik.errors.pin)}
+                helperText={formik.touched.pin && formik.errors.pin}
+                onBlur={formik.handleBlur}
+              />
+            </Grid>
+          </Grid>
+        </MyFormControl>
+
+        <MyFormControl>
+          <TextField
+            fullWidth
+            id='address'
+            name='address'
+            label='Address'
+            variant='outlined'
+            onChange={formik.handleChange}
+            value={formik.values.address}
+            error={formik.touched.address && Boolean(formik.errors.address)}
+            helperText={formik.touched.address && formik.errors.address}
+            onBlur={formik.handleBlur}
+          />
         </MyFormControl>
         <MyFormControl>
-          <InputLabel>Address</InputLabel>
-          <Input />
+          <Button
+            type='submit'
+            variant='contained'
+            color='secondary'
+            sx={{ width: { xs: '100%', lg: '10%' }, marginTop: 5 }}
+          >
+            Submit
+          </Button>
         </MyFormControl>
-        <MyFormControl>
-          <InputLabel>PIN</InputLabel>
-          <Input />
-        </MyFormControl>
-        <Button
-          variant='contained'
-          color='secondary'
-          sx={{ width: { xs: '100%', lg: '10%' }, marginTop: 5 }}
-        >
-          Submit
-        </Button>
       </MyForm>
     </>
   );

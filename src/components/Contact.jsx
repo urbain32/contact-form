@@ -7,21 +7,21 @@ import {
   MenuItem,
   Select,
   TextField,
-} from '@mui/material';
-import { styled } from '@mui/system';
-import axios from 'axios';
-import { useFormik } from 'formik';
-import { useState } from 'react';
-import * as yup from 'yup';
-import { countryCode } from '../utils/CountryData';
+} from "@mui/material";
+import { styled } from "@mui/system";
+import axios from "axios";
+import { useFormik } from "formik";
+import { useState } from "react";
+import * as yup from "yup";
+import { countryCode } from "../utils/CountryData";
 const MyForm = styled(FormGroup)({
-  width: '50%',
+  width: "50%",
   gap: 2,
   padding: 20,
   paddingTop: 20,
-  margin: 'auto',
-  boxShadow: '0px 0px 10px rgba(0,0,0,0.5)',
-  ':hover': { boxShadow: '10px 2px 10px rgba(0,0,0,0.5)' },
+  margin: "auto",
+  boxShadow: "0px 0px 10px rgba(0,0,0,0.5)",
+  ":hover": { boxShadow: "10px 2px 10px rgba(0,0,0,0.5)" },
 });
 const MyFormControl = styled(FormControl)({
   marginTop: 10,
@@ -30,30 +30,39 @@ const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = yup.object({
-  name: yup.string().required('Required'),
-  email: yup.string().required('Required').email('Email is required'),
-  number: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
-  pin: yup.string().min(4).required('Required'),
-  address: yup.string().required('Required'),
+  name: yup.string().required("Required"),
+  email: yup.string().required("Required").email("Email is required"),
+  number: yup
+    .string()
+    .matches(phoneRegExp, "Phone number is not valid")
+    .required("Required"),
+  pin: yup.string().max(4).required("Required"),
+  address: yup.string().required("Required"),
 });
 
-export const Contact = () => {
-  const url = 'http://localhost:8005/contact/';
+export const Contact = ({ currentBank, loadData }) => {
+  const url = "http://localhost:8005/contact/";
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      number: '',
-      pin: '',
-      address: '',
+      name: currentBank.name,
+      email: currentBank.email,
+      number: currentBank.number,
+      pin: currentBank.pin,
+      address: currentBank.address,
     },
-    onSubmit: (values) => {
-      console.log("fhdgssgsdfgsdg",values);
-      axios.post(url, values).then((res) => {
-        console.log('object', res.data);
-      }).catch(err => {
-        console.log("first",err.message)
-      })
+    onSubmit: (values, { resetForm }) => {
+      console.log("fhdgssgsdfgsdg", values);
+      axios
+        .post(url, values)
+        .then((res) => {
+          console.log("object", res.data);
+          loadData();
+          resetForm();
+        })
+        .catch((err) => {
+          resetForm();
+          console.log("first", err.message);
+        });
     },
     validationSchema,
   });
@@ -67,13 +76,13 @@ export const Contact = () => {
     <>
       <h1>Contact Form</h1>
 
-      <MyForm component='form' onSubmit={formik.handleSubmit}>
+      <MyForm component="form" onSubmit={formik.handleSubmit}>
         <MyFormControl>
           <TextField
             fullWidth
-            id='name'
-            name='name'
-            label='Full Name '
+            id="name"
+            name="name"
+            label="Full Name "
             onChange={formik.handleChange}
             value={formik.values.name}
             error={formik.touched.name && Boolean(formik.errors.name)}
@@ -84,10 +93,10 @@ export const Contact = () => {
         <MyFormControl>
           <TextField
             fullWidth
-            id='email'
-            name='email'
-            label='Email'
-            variant='outlined'
+            id="email"
+            name="email"
+            label="Email"
+            variant="outlined"
             onChange={formik.handleChange}
             value={formik.values.email}
             error={formik.touched.email && Boolean(formik.errors.email)}
@@ -98,13 +107,14 @@ export const Contact = () => {
         <MyFormControl>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={2}>
-              <InputLabel id='demo-simple-select-error-label'>Code</InputLabel>
+              <InputLabel id="demo-simple-select-error-label">Code</InputLabel>
               <Select
-                labelId='demo-simple-select-error-label'
-                id='demo-simple-select-error'
+                labelId="demo-simple-select-error-label"
+                id="demo-simple-select-error"
                 fullWidth
+                required
                 value={number}
-                label='number'
+                label="number"
                 onChange={handleChange}
                 renderValue={(value) => `(${value})`}
               >
@@ -119,10 +129,10 @@ export const Contact = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                id='number'
-                name='number'
-                label='Phone number'
-                variant='outlined'
+                id="number"
+                name="number"
+                label="Phone number"
+                variant="outlined"
                 onChange={formik.handleChange}
                 value={formik.values.number}
                 error={formik.touched.number && Boolean(formik.errors.number)}
@@ -133,10 +143,10 @@ export const Contact = () => {
             <Grid item xs={12} sm={4}>
               <TextField
                 fullWidth
-                id='pin'
-                name='pin'
-                label='PIN'
-                variant='outlined'
+                id="pin"
+                name="pin"
+                label="PIN"
+                variant="outlined"
                 onChange={formik.handleChange}
                 value={formik.values.pin}
                 error={formik.touched.pin && Boolean(formik.errors.pin)}
@@ -150,10 +160,10 @@ export const Contact = () => {
         <MyFormControl>
           <TextField
             fullWidth
-            id='address'
-            name='address'
-            label='Address'
-            variant='outlined'
+            id="address"
+            name="address"
+            label="Address"
+            variant="outlined"
             onChange={formik.handleChange}
             value={formik.values.address}
             error={formik.touched.address && Boolean(formik.errors.address)}
@@ -163,10 +173,11 @@ export const Contact = () => {
         </MyFormControl>
         <MyFormControl>
           <Button
-            type='submit'
-            variant='contained'
-            color='secondary'
-            sx={{ width: { xs: '100%', lg: '10%' }, marginTop: 5 }}
+            onClick={formik.handleSubmit}
+            type="submit"
+            variant="contained"
+            color="secondary"
+            sx={{ width: { xs: "100%", lg: "10%" }, marginTop: 5 }}
           >
             Submit
           </Button>

@@ -1,20 +1,13 @@
 {
   "contact": [
     {
-      "id": "1",
-      "name": "Yves",
-      "email": "Yves@gmail.com",
-      "number": "61202014",
-      "address": "Bujumbura",
-      "pin": "123"
-    },
-    {
-      "name": "test",
-      "email": "dnturubika2@gmail.com",
-      "number": "62500400",
-      "pin": "8585",
-      "address": "buja",
-      "id": "RiKHVZT"
+      "name": "Maia Underwood",
+      "email": "zotaru@mailinator.com",
+      "number": "271-72654566",
+      "code": "+1264",
+      "pin": "7894",
+      "address": "12345",
+      "id": 1
     }
   ]
 }

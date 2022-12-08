@@ -1,3 +1,5 @@
+import { Delete } from "@mui/icons-material";
+import { motion } from "framer-motion";
 import {
   Button,
   Paper,
@@ -138,14 +140,14 @@ function App() {
                   <TableCell align="right">{row.address}</TableCell>
                   <TableCell align="right">{row.pin}</TableCell>
                   <TableCell align="right">
-                    <Button
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.6 }}
                       onClick={() => handleDelete(row.id)}
-                      type="submit"
-                      variant="outlined"
-                      color="error"
                     >
-                      delete
-                    </Button>
+                      <Delete sx={{ ":hover": { color: "red" } }} />
+                    </motion.div>
                   </TableCell>
                 </TableRow>
               ))

@@ -32,9 +32,13 @@ const phoneRegExp =
 const validationSchema = yup.object({
   name: yup.string().required("Required"),
   email: yup.string().required("Required").email("Email is required"),
-  number: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  number: yup
+    .string()
+    .matches(phoneRegExp, "Phone number is not valid")
+    .required("Required"),
   pin: yup.string().min(4).required("Required"),
   address: yup.string().required("Required"),
+  code: yup.string().required("Required"),
 });
 
 export const Contact = ({ currentBank, loadData }) => {
@@ -44,6 +48,7 @@ export const Contact = ({ currentBank, loadData }) => {
       name: currentBank.name,
       email: currentBank.email,
       number: currentBank.number,
+      code: currentBank.code,
       pin: currentBank.pin,
       address: currentBank.address,
     },
@@ -63,11 +68,11 @@ export const Contact = ({ currentBank, loadData }) => {
     },
     validationSchema,
   });
-  const [number, setNumber] = useState(``);
-  // eslint-disable-next-line
-  const handleChange = (event) => {
-    setNumber(event.target.value);
-  };
+  // const [number, setNumber] = useState(``);
+  // // eslint-disable-next-line
+  // const handleChange = (event) => {
+  //   setNumber(event.target.value);
+  // };
 
   return (
     <>
@@ -106,12 +111,16 @@ export const Contact = ({ currentBank, loadData }) => {
             <Grid item xs={12} sm={2}>
               <InputLabel id="demo-simple-select-error-label">Code</InputLabel>
               <Select
-                labelId="demo-simple-select-error-label"
-                id="demo-simple-select-error"
                 fullWidth
-                value={number}
-                label="number"
-                onChange={handleChange}
+                label="Code"
+                id="code"
+                name="code"
+                value={formik.values.code}
+                onChange={(e) => {
+                  formik.setFieldValue("code", e.target.value);
+                }}
+                error={formik.touched.code && Boolean(formik.errors.code)}
+                helperText={formik.touched.code && formik.errors.code}
                 renderValue={(value) => `(${value})`}
               >
                 {countryCode.map((country) => (

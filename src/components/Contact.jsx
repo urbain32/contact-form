@@ -32,11 +32,8 @@ const phoneRegExp =
 const validationSchema = yup.object({
   name: yup.string().required("Required"),
   email: yup.string().required("Required").email("Email is required"),
-  number: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("Required"),
-  pin: yup.string().max(4).required("Required"),
+  number: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  pin: yup.string().min(4).required("Required"),
   address: yup.string().required("Required"),
 });
 
@@ -60,8 +57,8 @@ export const Contact = ({ currentBank, loadData }) => {
           resetForm();
         })
         .catch((err) => {
-          resetForm();
           console.log("first", err.message);
+          resetForm();
         });
     },
     validationSchema,
@@ -112,7 +109,6 @@ export const Contact = ({ currentBank, loadData }) => {
                 labelId="demo-simple-select-error-label"
                 id="demo-simple-select-error"
                 fullWidth
-                required
                 value={number}
                 label="number"
                 onChange={handleChange}

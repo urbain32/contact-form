@@ -4,34 +4,17 @@
       "id": "1",
       "name": "Yves",
       "email": "Yves@gmail.com",
-      "phone": "61202014",
+      "number": "61202014",
       "address": "Bujumbura",
       "pin": "123"
     },
     {
-      "name": "Ronan Solomon",
-      "email": "micigi@mailinator.com",
-      "code": "",
-      "number": "10222222",
-      "pin": "1204",
-      "address": "Animi sint proident",
-      "id": "62yEBKY"
-    },
-    {
-      "name": "Brooke Doyle",
-      "email": "jetitoho@mailinator.com",
-      "number": "61214821",
-      "pin": "1234",
-      "address": "Facere asperiores en",
-      "id": "0i3U6nt"
-    },
-    {
-      "name": "Davina Coding",
-      "email": "urbainquentin1@gmail.com",
-      "number": "455555555",
-      "pin": "7777",
+      "name": "test",
+      "email": "dnturubika2@gmail.com",
+      "number": "62500400",
+      "pin": "8585",
       "address": "buja",
-      "id": "wr_66Rn"
+      "id": "RiKHVZT"
     }
   ]
 }

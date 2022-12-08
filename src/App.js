@@ -30,6 +30,7 @@ function App() {
   const [currentBank, setCurrentBank] = useState({
     name: "",
     email: "",
+    code: "",
     address: "",
     number: "",
     pin: "",
@@ -41,6 +42,7 @@ function App() {
       email: row.email,
       address: row.address,
       number: row.number,
+      code: row.code,
       pin: row.pin,
     });
     setTitle("Modifier");
@@ -62,6 +64,7 @@ function App() {
       name: "",
       email: "",
       number: "",
+      code: "",
       address: "",
       pin: "",
     });
@@ -119,6 +122,8 @@ function App() {
             ) : (
               rows.map((row, index) => (
                 <TableRow
+                  hover
+                  onClick={(event) => setCurrent(event, row)}
                   tabIndex={-1}
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -127,7 +132,9 @@ function App() {
                     {row.name}
                   </TableCell>
                   <TableCell align="right">{row.email}</TableCell>
-                  <TableCell align="right">{row.phone}</TableCell>
+                  <TableCell align="right">
+                    {row.code} {row.number}
+                  </TableCell>
                   <TableCell align="right">{row.address}</TableCell>
                   <TableCell align="right">{row.pin}</TableCell>
                   <TableCell align="right">

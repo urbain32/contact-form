@@ -8,6 +8,15 @@
       "pin": "7894",
       "address": "12345",
       "id": 1
+    },
+    {
+      "name": "test",
+      "email": "test@test.com",
+      "number": "7895689",
+      "code": "+1264",
+      "pin": "1425",
+      "address": "gihosha",
+      "id": 2
     }
   ]
 }

@@ -3,6 +3,7 @@ import {
   FormControl,
   FormGroup,
   Grid,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -11,7 +12,6 @@ import {
 import { styled } from "@mui/system";
 import axios from "axios";
 import { useFormik } from "formik";
-import { useState } from "react";
 import * as yup from "yup";
 import { countryCode } from "../utils/CountryData";
 const MyForm = styled(FormGroup)({
@@ -140,6 +140,11 @@ export const Contact = ({ currentBank, loadData }) => {
                 variant="outlined"
                 onChange={formik.handleChange}
                 value={formik.values.number}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">+257</InputAdornment>
+                  ),
+                }}
                 error={formik.touched.number && Boolean(formik.errors.number)}
                 helperText={formik.touched.number && formik.errors.number}
                 onBlur={formik.handleBlur}
